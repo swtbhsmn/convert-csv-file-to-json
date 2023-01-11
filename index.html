@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Csv to Json</title>
+</head>
+<body>
+    <header>
+        <h1>Convert CSV file to JSON!</h1>
+    </header>
+    <input type="file" id="file-input">
+    <script>
+      let input = document.getElementById("file-input");
+      input.addEventListener("change", function() {
+        let file = this.files[0];
+        let reader = new FileReader();
+        reader.onload = function() {
+          let csv = reader.result;
+          let json = csvToJson(csv);
+          // use the json
+        };
+        reader.readAsText(file);
+      });
+    
+      function csvToJson(csv) {
+        let lines = csv.split("\n");
+        let result = [];
+        let headers = lines[0].split(",");
+    
+        for (let i = 1; i < lines.length; i++) {
+          let obj = {};
+          let currentline = lines[i].split(",");
+          for (let j = 0; j < headers.length; j++) {
+            obj[headers[j]] = currentline[j];
+          }
+          result.push(obj);
+        }
+    
+        // Return the JSON object
+        return JSON.stringify(result);
+      }
+    </script>
+    
+</body>
+</html>
