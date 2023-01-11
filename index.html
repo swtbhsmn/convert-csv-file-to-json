@@ -20,6 +20,22 @@
           let csv = reader.result;
           let json = csvToJson(csv);
           // use the json
+            let jsonBlob = new Blob([json], { type: 'application/json' });
+
+            // Create a link element
+            let downloadLink = document.createElement("a");
+            downloadLink.download = "data.json";
+            downloadLink.href = window.URL.createObjectURL(jsonBlob);
+            downloadLink.style.display = "none";
+
+            // Append the link to the DOM
+            document.body.appendChild(downloadLink);
+
+            // Click the link
+            downloadLink.click();
+
+            // Remove the link from the DOM
+            document.body.removeChild(downloadLink);
         };
         reader.readAsText(file);
       });
